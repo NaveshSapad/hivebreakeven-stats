@@ -130,6 +130,9 @@ def calculate_current_avg(buy_list,sell_list,user,token):
     
     add_q,sub_q,add_list,sub_list=get_transfer_history(user,token)
     progress_details.write("Final calculation...")
+
+    what_you_got.write("You have received <b>{}</b> {} from others ".format(add_q,token),unsafe_allow_html=True)
+    what_you_sent.write("You have sent <b>{}</b> {} to others ".format(sub_q,token),unsafe_allow_html=True)
     
     print("\nSent:"+str(sub_q),"Received:"+str(add_q))
     
@@ -193,10 +196,15 @@ if __name__ == '__main__':
             progress_details= entry.empty()
             progress_bar= entry.progress(0)
             
-            output.markdown("<h4><center> You can view your details here </center></h4",unsafe_allow_html=True)
+            output.markdown("<h4><center> You can view your details here </center></h4>",unsafe_allow_html=True)
+            
 
             buy_avg=output.empty()
             sell_avg=output.empty()
+            what_you_got=output.empty()
+            what_you_sent=output.empty()
+
+            output.write("<hr>",unsafe_allow_html=True)
 
             first=output.empty()
             buy_history = output.empty()
