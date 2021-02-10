@@ -189,6 +189,7 @@ if __name__ == '__main__':
     
     user=entry.text_input("Enter the username:")
     token=entry.selectbox("Enter the token:",symbols_list)
+    user=user.lower()
     token=token.upper()
     
     if user:
