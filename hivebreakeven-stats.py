@@ -120,6 +120,10 @@ def calculate_current_avg(buy_list,sell_list,user,token):
     sell_total=df_sell['Hive_got_total'].sum()
     sell_q=df_sell['Quantity'].sum()
     avg_sell=sell_total/sell_q
+
+
+    buy_avg.write("You have bought {} {} totally - Average buy price : {}".format(buy_q,token,avg_buy))
+    sell_avg.write("You have sold {} {} totally - Average sell price : {}".format(sell_q,token,avg_sell))
     
     print('\nAverage price (SELL):'+str(avg_sell)+' Amount:'+str(sell_q))
     
@@ -190,6 +194,9 @@ if __name__ == '__main__':
             progress_bar= entry.progress(0)
             
             output.markdown("<h4><center> You can view your details here </center></h4",unsafe_allow_html=True)
+
+            buy_avg=output.empty()
+            sell_avg=output.empty()
 
             first=output.empty()
             buy_history = output.empty()

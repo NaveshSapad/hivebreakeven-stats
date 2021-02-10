@@ -1,4 +1,5 @@
-hiveengine
-streamlit
+numpy
 pandas
-time
+streamlit
+matplotlib
+hiveengine
