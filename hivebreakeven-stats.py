@@ -170,6 +170,8 @@ def get_sym_list():
     symbols_list=[]
     for i in range(0,len(market_details)):
         symbols_list.append(market_details[i]['symbol'])
+
+    symbols_list.sort()
         
     return symbols_list
     
