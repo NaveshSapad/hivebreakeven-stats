@@ -122,8 +122,8 @@ def calculate_current_avg(buy_list,sell_list,user,token):
     avg_sell=sell_total/sell_q
 
 
-    buy_avg.write("You have bought {} {} totally - Average buy price : {}".format(buy_q,token,avg_buy))
-    sell_avg.write("You have sold {} {} totally - Average sell price : {}".format(sell_q,token,avg_sell))
+    buy_avg.write("You have bought <b>{}</b> {} totally - Average buy price : {}".format(buy_q,token,avg_buy),unsafe_allow_html=True)
+    sell_avg.write("You have sold <b>{}</b> {} totally - Average sell price : {}".format(sell_q,token,avg_sell),unsafe_allow_html=True)
     
     print('\nAverage price (SELL):'+str(avg_sell)+' Amount:'+str(sell_q))
     
@@ -218,14 +218,14 @@ if __name__ == '__main__':
             progress_details.write("Successfully fetched all the details")
 
             entry.markdown("<h4><center>Current Holdings is : {} {}</center></h4><br><hr>".format(current_holdings,token),unsafe_allow_html=True)
-            
+
 
             if(current_avg>0):
                 current_avg= abs(current_avg)
                 entry.markdown("<h3><center>Current_avg( HIVE ):{} per {}<h6><center>Formula used: (Buy_total - sell_total) / (Buy_quantity+ received_amount - sell_quantity - sent_amount)</center></h6><br><hr> That means you can sell the {} at any price greater than {} HIVE to make profits .<br><hr>If you sell for less , you will make loss.</center></h3>".format('%.8f' % current_avg,token,token,'%.8f' % current_avg),unsafe_allow_html=True) 
 
-            elif(current_avg==0 and profit==0):
-                entry.markdown("<h3><center>Cool , you are on profits already .Total profits so far: {}.<br><hr> Don't forget you still hold {} amount of {} token</center></h3>".format(str(profit),"%.6f" % current_holdings,token),unsafe_allow_html=True)
+            elif(current_avg!=0 and profit!=0):
+                entry.markdown("<h3><center>Cool , you are on profits already .Total profits so far: {} HIVE.<br><hr> Don't forget you still hold {} amount of {} token</center></h3>".format(str(abs(profit)),"%.6f" % current_holdings,token),unsafe_allow_html=True)
             else:
                 entry.markdown("<h3><center>No profit , no loss</center></h3>",unsafe_allow_html=True)
                 
