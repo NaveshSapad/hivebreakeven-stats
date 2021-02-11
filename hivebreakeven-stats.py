@@ -122,8 +122,8 @@ def calculate_current_avg(buy_list,sell_list,user,token):
     avg_sell=sell_total/sell_q
 
 
-    buy_avg.write("You have bought <b>{}</b> {} totally - Average buy price : {}".format(buy_q,token,avg_buy),unsafe_allow_html=True)
-    sell_avg.write("You have sold <b>{}</b> {} totally - Average sell price : {}".format(sell_q,token,avg_sell),unsafe_allow_html=True)
+    buy_avg.write("<p class='output'>You have bought <b>{}</b> {} totally - Average buy price : {}</p>".format(buy_q,token,avg_buy),unsafe_allow_html=True)
+    sell_avg.write("<p class='output'>You have sold <b>{}</b> {} totally - Average sell price : {}</p>".format(sell_q,token,avg_sell),unsafe_allow_html=True)
     
     print('\nAverage price (SELL):'+str(avg_sell)+' Amount:'+str(sell_q))
     
@@ -131,8 +131,8 @@ def calculate_current_avg(buy_list,sell_list,user,token):
     add_q,sub_q,add_list,sub_list=get_transfer_history(user,token)
     progress_details.write("Final calculation...")
 
-    what_you_got.write("You have received <b>{}</b> {} from others ".format(add_q,token),unsafe_allow_html=True)
-    what_you_sent.write("You have sent <b>{}</b> {} to others ".format(sub_q,token),unsafe_allow_html=True)
+    what_you_got.write("<p class='output'>You have received <b>{}</b> {} from others </p>".format(add_q,token),unsafe_allow_html=True)
+    what_you_sent.write("<p class='output'>You have sent <b>{}</b> {} to others </p>".format(sub_q,token),unsafe_allow_html=True)
     
     print("\nSent:"+str(sub_q),"Received:"+str(add_q))
     
@@ -182,12 +182,25 @@ if __name__ == '__main__':
     api=Api()
 
     st.set_page_config(page_title='Hive 2nd layer Earnings stats',layout='wide')
+
+    st.markdown('''<center>
+    <iframe data-aa="1569016" src="//ad.a-ads.com/1569016?size=728x90" scrolling="no" style="width:728px; height:90px; border:0px; padding:0; overflow:hidden" allowtransparency="true"></iframe>
+    </center>''',unsafe_allow_html=True)
     
     st.markdown("<h1><center> Enter your username and the token you wish to see the details for and click enter </center></h1>",unsafe_allow_html=True)
-    
+
+    st.markdown('''
+    <style>
+            body {background-color: #89D1FE;}
+            .output {padding:10px;
+                text-align:center;}
+
+            .summary {padding:10px}
+    </style>
+    ''',unsafe_allow_html=True)
     symbols_list= get_sym_list()
     
-    entry,output = st.beta_columns(2)
+    entry,output = st.beta_columns([1,3])
     
     user=entry.text_input("Enter the username:")
     token=entry.selectbox("Enter the token:",symbols_list)
@@ -199,8 +212,7 @@ if __name__ == '__main__':
             progress_details= entry.empty()
             progress_bar= entry.progress(0)
             
-            output.markdown("<h4><center> You can view your details here </center></h4>",unsafe_allow_html=True)
-            
+            output.markdown("<h1><center> {} stats </center></h1>".format(token),unsafe_allow_html=True)
 
             buy_avg=output.empty()
             sell_avg=output.empty()
@@ -209,14 +221,14 @@ if __name__ == '__main__':
 
             output.write("<hr>",unsafe_allow_html=True)
 
-            first=output.empty()
-            buy_history = output.empty()
-            second=output.empty()
-            sell_history = output.empty()
-            third=output.empty()
-            receive = output.empty()
-            fourth=output.empty()
-            send = output.empty()
+            first=entry.empty()
+            buy_history = entry.empty()
+            second=entry.empty()
+            sell_history = entry.empty()
+            third=entry.empty()
+            receive = entry.empty()
+            fourth=entry.empty()
+            send = entry.empty()
 
 
 
@@ -228,17 +240,17 @@ if __name__ == '__main__':
 
             progress_details.write("Successfully fetched all the details")
 
-            entry.markdown("<h4><center>Current Holdings is : {} {}</center></h4><br><hr>".format(current_holdings,token),unsafe_allow_html=True)
+            output.markdown("<h1> <center>Summary </center></h1><h3 class = 'summary'>Current Holdings is : {} {}</center></h3>".format(current_holdings,token),unsafe_allow_html=True)
 
 
             if(current_avg>0):
                 current_avg= abs(current_avg)
-                entry.markdown("<h3><center>Current_avg( HIVE ):{} per {}<h6><center>Formula used: (Buy_total - sell_total) / (Buy_quantity+ received_amount - sell_quantity - sent_amount)</center></h6><br><hr> That means you can sell the {} at any price greater than {} HIVE to make profits .<br><hr>If you sell for less , you will make loss.</center></h3>".format('%.8f' % current_avg,token,token,'%.8f' % current_avg),unsafe_allow_html=True) 
+                output.markdown("<h3 class='summary'>Current_avg( HIVE ): {} HIVE per {} </h3><h6 class='summary'>Formula used: (Buy_total - sell_total) / (Buy_quantity+ received_amount - sell_quantity - sent_amount)</h6><h3 class='summary'>That means you can sell the {} at any price greater than {} HIVE to make profits .If you sell for less , you will make loss.</center></h3>".format('%.8f' % current_avg,token,token,'%.8f' % current_avg),unsafe_allow_html=True) 
 
             elif(current_avg!=0 and profit!=0):
-                entry.markdown("<h3><center>Cool , you are on profits already .Total profits so far: {} HIVE.<br><hr> Don't forget you still hold {} amount of {} token</center></h3>".format(str(abs(profit)),"%.6f" % current_holdings,token),unsafe_allow_html=True)
+                output.markdown("<h3 class='summary'>Cool , you are on profits already .Total profits so far: {} HIVE.Don't forget you still hold {} amount of {} token</center></h3>".format(str(abs(profit)),"%.6f" % current_holdings,token),unsafe_allow_html=True)
             else:
-                entry.markdown("<h3><center>No profit , no loss</center></h3>",unsafe_allow_html=True)
+                output.markdown("<h3 class='summary'>No profit , no loss</center></h3>",unsafe_allow_html=True)
                 
             progress_bar.progress(100)
         else:
